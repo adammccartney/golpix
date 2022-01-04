@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-      <ColorPicker :color=color />
-      <Canvas :pixels=pixels />
+      <ColorPicker :color=$store.getters.color />
+      <Canvas :pixels=$store.getters.pixels />
   </div>
 </template>
 
@@ -9,30 +9,12 @@
 import Canvas from './components/Canvas.vue';
 import ColorPicker from './components/ColorPicker.vue';
 
-const defaultcolor = "white";
-
 export default {
   name: 'App',
-  data: function() {
-    return {
-      color: defaultcolor,
-      pixels: Array(30 * 30)
-        .fill()
-        .map(() => defaultcolor)
-    }
-  },
   components: {
     Canvas,
     ColorPicker
   },
-  mounted() {
-    this.$root.$on('updatecolor', color => {
-      this.color = color;
-    })
-    this.$root.$on('clickedpixel', index => {
-      this.pixels.splice(index, 1, this.color)
-      })
-  }
 }
 </script>
 
