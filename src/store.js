@@ -23,7 +23,7 @@ export default new Vuex.Store({
         updateColor(state, color) {
             state.color = color;
         },
-        handleClick(state, index) {
+        clickedPixel(state, index) {
             state.pixels.splice(index, 1, state.color);
         }
     },

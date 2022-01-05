@@ -15,10 +15,10 @@ export default {
   methods: {
     handleClick: function() {
     if (this.isInColorPicker) {
-      this.$root.$emit('updatecolor', this.color)
+       this.$store.commit('updateColor', this.color)
     }
     if (this.isInCanvas) {
-      this.$root.$emit('clickedpixel', this.index)
+       this.$store.commit('clickedPixel', this.index)
       }
     }
   }
