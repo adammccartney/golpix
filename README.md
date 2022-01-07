@@ -1,4 +1,6 @@
-# pix
+# golpix
+
+Game of Life in Pixels: an implementation of Conway's Game of Life using vue.
 
 ## Project setup
 ```
