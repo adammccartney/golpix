@@ -5,8 +5,7 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 
-import { createCell } from '../modules/Cell.js';
-import * as init_data from './init-data.js';
+import { initializeCells } from '../modules/Cell.js';
 
 Vue.use(Vuex);
 
@@ -14,6 +13,7 @@ Vue.use(Vuex);
 const DEFAULT_COLOR = "white";
 const WIDTH = 30;
 const HEIGHT = 30;
+let world_cells = initializeCells(WIDTH * HEIGHT);
 
 export default new Vuex.Store({
     state: {
@@ -21,9 +21,7 @@ export default new Vuex.Store({
         pixels: Array(WIDTH * HEIGHT)
                 .fill()
                 .map(() => DEFAULT_COLOR),
-        cells: Array(WIDTH * HEIGHT)
-               .fill()
-               .map(() => createCell(init_data.CELL)),
+        cells: world_cells,
     },
     actions,
     getters,

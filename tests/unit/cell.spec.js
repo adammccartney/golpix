@@ -5,7 +5,8 @@ import { CellCoords,
          createNeighbors,
          getNeighbors,
          Cell,
-         createCell } from '../../src/modules/Cell.js';
+         createCell,
+         initializeCells } from '../../src/modules/Cell.js';
 
 describe("CellCoords", () => {
     const cellcoords = new CellCoords(1, 1);
@@ -110,8 +111,16 @@ describe("create cell as partially immutable object", () => {
     });
 
     test("neighbors are defined correctly", () => {
-        console.log(testcell.neighbors);
         expect(testcell.neighbors.collection.length).toBe(3);
+    });
+});
+
+
+describe("create an N * N grid of cells", () => {
+    const array_size = 30 * 30;
+
+    test("grid should contain 900 cells", () => {
+        expect(initializeCells(array_size).length).toBe(900);
     });
 });
 

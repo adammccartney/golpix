@@ -1,3 +1,9 @@
+// This module is geared towards creating a cell
+// A cell is a class that is designed by composition
+// The reason for this is that two of its members are read only
+// a cell's coordinates are fixed (like a place in history)
+// so are it's neighbors (like a family)
+
 export class CellCoords {  // object to maintain cartesian coords of cell
     constructor (x, y) {
         this.x = x;
@@ -64,11 +70,11 @@ export function getNeighbors (cellcoords, side_length) {
 
 export class Cell {
     constructor (coords, alive, neighbors, next_state) {
-        this.coords = coords;
-        this.alive = alive;
-        this.neighbors = neighbors;
-        this.next_state = next_state;
-    }
+        this.coords = coords; // is type of CellCoords(x, y) and is immutable
+        this.alive = alive;   // is type of boolean and is mutable
+        this.neighbors = neighbors;   // is type of Array[CellNeighbors] and is immutable
+        this.next_state = next_state; // is type of boolean and is mutable
+    } 
 }
 
 export function createCell(data) {
@@ -77,4 +83,23 @@ export function createCell(data) {
     const neighbors = data.neighbors;
     let next_state = data.next_state;
     return new Cell( coords, alive, neighbors, next_state );
+}
+
+export function initializeCells(array_size) {    // array should be N * N
+    const len_side = Math.sqrt(array_size);  // i.e. a square grid
+    let cells = [];
+    for (let i = 0; i < array_size; i++) {
+        let x = i % len_side;
+        let y = Math.floor(i/4);
+        const cell_coords = createCellCoords(x, y);
+        const cell_neighbors = getNeighbors(cell_coords, len_side); 
+        let data = { coords: cell_coords, 
+                     alive: false,
+                     neighbors: cell_neighbors,
+                     next_state: false,
+        };
+        let acell = createCell(data);
+        cells.push(acell);
+    }
+    return cells;
 }
