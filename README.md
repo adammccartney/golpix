@@ -22,3 +22,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## Notes on how to structure a complex vue store:
+https://markus.oberlehner.net/blog/how-to-structure-a-complex-vuex-store/

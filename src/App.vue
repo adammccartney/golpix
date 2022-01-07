@@ -2,18 +2,21 @@
   <div id="app">
       <ColorPicker :color=$store.getters.color />
       <Canvas :pixels=$store.getters.pixels />
+      <Stepper />
   </div>
 </template>
 
 <script>
 import Canvas from './components/Canvas.vue';
 import ColorPicker from './components/ColorPicker.vue';
+import Stepper from './components/Stepper.vue';
 
 export default {
   name: 'App',
   components: {
     Canvas,
-    ColorPicker
+    ColorPicker,
+    Stepper
   },
 }
 </script>
