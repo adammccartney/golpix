@@ -11,9 +11,8 @@ Vue.use(Vuex);
 
 /* give me those global constants baby */
 const DEFAULT_COLOR = "white";
-const WIDTH = 30;
-const HEIGHT = 30;
-let world_cells = initializeCells(WIDTH * HEIGHT);
+const WIDTH = 3;
+const HEIGHT = 3;
 
 export default new Vuex.Store({
     state: {
@@ -21,7 +20,7 @@ export default new Vuex.Store({
         pixels: Array(WIDTH * HEIGHT)
                 .fill()
                 .map(() => DEFAULT_COLOR),
-        cells: world_cells,
+        cells: initializeCells(WIDTH * HEIGHT),
     },
     actions,
     getters,

@@ -98,7 +98,7 @@ describe("Cell", () => {
 describe("create cell as partially immutable object", () => {
     const mock_coords = createCellCoords(2, 2);  // a cell with coordinates at the corner of 3x3 grid
     const mock_neighbors = getNeighbors(mock_coords, 3);
-    let data = {coords: mock_coords, alive: false, neighbors: mock_neighbors, next_state: false};
+    let data = {coords: mock_coords, alive: false, neighbors: mock_neighbors.collection, next_state: false};
 
     let testcell = createCell(data);
 
@@ -111,7 +111,7 @@ describe("create cell as partially immutable object", () => {
     });
 
     test("neighbors are defined correctly", () => {
-        expect(testcell.neighbors.collection.length).toBe(3);
+        expect(testcell.neighbors.length).toBe(3);
     });
 });
 
@@ -123,4 +123,36 @@ describe("create an N * N grid of cells", () => {
         expect(initializeCells(array_size).length).toBe(900);
     });
 });
+
+
+describe("neighbors are correctly produced", () => {
+    const array_size = 30 * 30;
+    let cells = initializeCells(array_size);
+
+    test("a corner cell will have 3 neighbors", () => {
+        expect(cells[0].neighbors.length).toBe(3);
+    });
+});
+
+
+describe("neighbors are well defined", () => {
+    const array_size = 3 * 3;
+    let cells = initializeCells(array_size);
+
+    test("a cell has neighbors with state", () => {
+        expect(cells[0].neighbors[0].alive).toBe(false);
+    });
+});
+
+
+describe("neighbors state is mutable", () => {
+    const array_size = 3 * 3;
+    let cells = initializeCells(array_size);
+    cells[0].neighbors[0].alive = true;
+
+    test("a cell can see if their neighbor is alive or dead", () => {
+        expect(cells[0].neighbors[0].alive).toBe(true);
+    });
+});
+
 

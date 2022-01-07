@@ -23,9 +23,9 @@ export class CellNeighbors {
     }
 }
 
-export function createNeighbors (data) {
-    const neighbors = data.neighbors;
-    return Object.freeze(new CellNeighbors(neighbors));
+export function createNeighbors (coords) {
+    const neighbors = coords;
+    return new CellNeighbors(neighbors);
 }
 
 // checks validity of cells coordinates based on the length of the container's
@@ -59,13 +59,16 @@ export function getNeighbors (cellcoords, side_length) {
                 let trycoords = createCellCoords(npx, npy);
                 let accept = isValidCoord(trycoords, side_length);
                 if (accept === true) {  // test validity of new coords
-                    const ncell = createCellCoords(npx, npy);
-                    ncells.push(ncell);
+                    const ncellcoords = createCellCoords(npx, npy);
+                    let ndata = {coords: ncellcoords, alive: false};
+                    let neighbor = createNeighbor(ndata);
+                    ncells.push(neighbor);
                 }
             }
         }
     }
-    return Object.freeze(new CellNeighbors(ncells));
+    let neighbors = createNeighbors(ncells);
+    return neighbors;
 }
 
 export class Cell {
@@ -85,6 +88,19 @@ export function createCell(data) {
     return new Cell( coords, alive, neighbors, next_state );
 }
 
+export class Neighbor {  // neighbor is like a cell, but just knows it's coords and current next_state
+    constructor (coords, alive) {
+        this.coords = coords; // is type of CellCoords(x, y) and is immutable
+        this.alive = alive;   // is type of boolean and is mutable
+    }
+}
+
+export function createNeighbor(data) {
+    const coords = data.coords;
+    let alive = data.alive;
+    return new Neighbor(coords, alive);
+}
+
 export function initializeCells(array_size) {    // array should be N * N
     const len_side = Math.sqrt(array_size);  // i.e. a square grid
     let cells = [];
@@ -95,7 +111,7 @@ export function initializeCells(array_size) {    // array should be N * N
         const cell_neighbors = getNeighbors(cell_coords, len_side); 
         let data = { coords: cell_coords, 
                      alive: false,
-                     neighbors: cell_neighbors,
+                     neighbors: cell_neighbors.collection,
                      next_state: false,
         };
         let acell = createCell(data);
