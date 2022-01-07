@@ -3,17 +3,17 @@ import Vuex from 'vuex';
 
 import actions from './actions';
 import getters from './getters';
-import mutations from './murations';
+import mutations from './mutations';
 
-import Cell from '../modules/Cell.js';
+import { createCell } from '../modules/Cell.js';
+import * as init_data from './init-data.js';
 
 Vue.use(Vuex);
 
+/* give me those global constants baby */
 const DEFAULT_COLOR = "white";
 const WIDTH = 30;
 const HEIGHT = 30;
-
-const INIT_CELL_DATA = { x = 0, y = 0, alive = false, neighbors = null, next_state = null };
 
 export default new Vuex.Store({
     state: {
@@ -23,7 +23,7 @@ export default new Vuex.Store({
                 .map(() => DEFAULT_COLOR),
         cells: Array(WIDTH * HEIGHT)
                .fill()
-               .map(() => createCell(INIT_CELL_DATA)),
+               .map(() => createCell(init_data.CELL)),
     },
     actions,
     getters,

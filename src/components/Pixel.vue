@@ -18,6 +18,7 @@ export default {
        this.$store.commit('updateColor', this.color)
     }
     if (this.isInCanvas) {
+        // pixels have knowledge of their index
        this.$store.commit('clickedPixel', this.index)
       }
     }

@@ -1,5 +1,5 @@
 import * as types from './mutation-types';
-import INIT_CELL from './init-state';
+import * as init_data from './init-data';
 
 export default {
     [types.SPAWN](state, index) { // spawns cell at index
@@ -27,8 +27,8 @@ export default {
     },
     [types.RESET](state) {  // re-initialize state of cells (coords and neighbors stay the same)
         for (let i = 0; i < state.cells.length; i++) {
-            state.cells[i].alive = INIT_CELL.alive;  
-            state.cells[i].next_state = INIT_CELL.next_state;  
+            state.cells[i].alive = init_data.CELL.alive;  
+            state.cells[i].next_state = init_data.CELL.next_state;  
         }
     }
 };
