@@ -67,7 +67,13 @@ export function getNeighbors (cellcoords, side_length) {
             }
         }
     }
-    let neighbors = createNeighbors(ncells);
+    //let neighbors = createNeighbors(ncells);
+    // neighbors should return an array of references
+    let neighbors = () => {
+        for (let i = 0; i < ncells.length; i++) {
+            console.log(ncells[i]);
+        }
+    }
     return neighbors;
 }
 

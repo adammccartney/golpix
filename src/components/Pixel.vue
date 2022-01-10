@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import * as types from '../store/mutation-types';
+
 export default {
   name: 'Pixel',
   props: {
@@ -15,11 +17,11 @@ export default {
   methods: {
     handleClick: function() {
     if (this.isInColorPicker) {
-       this.$store.commit('updateColor', this.color)
+       this.$store.dispatch(types.UPDATE_COLOR, this.color);
     }
     if (this.isInCanvas) {
         // pixels have knowledge of their index
-       this.$store.commit('clickedPixel', this.index)
+       this.$store.dispatch(types.CLICKED_PIXEL, this.index);
       }
     }
   }

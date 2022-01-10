@@ -11,8 +11,8 @@ Vue.use(Vuex);
 
 /* give me those global constants baby */
 const DEFAULT_COLOR = "white";
-const WIDTH = 3;
-const HEIGHT = 3;
+const WIDTH = 30;
+const HEIGHT = 30;
 
 export default new Vuex.Store({
     state: {

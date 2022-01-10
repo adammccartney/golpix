@@ -1,7 +1,8 @@
+export const UPDATE_COLOR = 'UPDATE_COLOR';
+export const CLICKED_PIXEL = 'CLICKED_PIXEL';
 export const SPAWN = 'SPAWN';
 export const KILL = 'KILL';
-export const SET_COORDINATES = 'SET_COORDINATES';
-export const SET_NEIGHBORS = 'SET_NEIGHBORS';
-export const SET_NEXT_STATE = 'SET_NEXT_STATE';
-export const GENERATE = 'GENERATE';
+export const UPDATE_NEIGHBORS = 'UPDATE_NEIGHBORS';
+export const DETERMINE_NEXT = 'DETERMINE_NEXT';
+export const GENERATE_NEXT = 'GENERATE_NEXT';
 export const RESET = 'RESET';

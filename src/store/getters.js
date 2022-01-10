@@ -1,6 +1,18 @@
 export default {
+    color(state) {
+        return state.color;
+    },
+    pixels(state) {
+        return state.pixels;
+    },
     cells(state) {
         return state.cells;
+    },
+    cell(state, index) {
+        return state.cells[index];
+    },
+    neighbors(state, index) {
+        return state.cells[index].neighbors;
     },
     //cell_alive(state, index) {
     //    return state.cells[index].alive;
