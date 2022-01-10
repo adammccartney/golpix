@@ -27,7 +27,7 @@ export default {
             let neighbors = state.cells[i].neighbors;
             let nalive = 0;
             for (let n of neighbors) {
-                if (n.alive === true) nalive++
+                if (state.cells[n].alive === true) nalive++
             }
             if (state.cells[i].alive === true) {
                 if ((nalive < 2) || (nalive > 3)) { // any live cell with < 2 or > 3 neighbors dies
@@ -35,7 +35,7 @@ export default {
                 }
             } else { // cell is dead
                 if ((state.cells[i].alive === false) && (nalive === 3)) { // any dead cell with exactly 3 
-                    state.cells[i].next_state = true;                     // live neighbors becomes a living cells
+                    state.cells[i].next_state = true;                     // live neighbors becomes a living cell
                 } else {
                     state.cells[i].next_state = false; // empty grid, mark next state false
                 }

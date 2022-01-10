@@ -26,14 +26,6 @@ describe("createCellCoords", () => {
 });
 
 
-describe("CellNeighbors", () => {
-    const neighbors = new CellNeighbors();
-
-    test("defines cellneighbors", () => {
-        expect(typeof neighbors).toBe("object");
-    });
-});
-
 describe("isValidCoord works as expected with integer values", () => {
     
     test("coords outside container return false", () => {
@@ -47,7 +39,7 @@ describe("isValidCoord works as expected with integer values", () => {
     });
 });
 
-describe("createNeighbors returns a cell neighbors object", () => {
+describe("createNeighbors returns a list of valid cell index references", () => {
     let c0 = createCellCoords(0, 0);
     let c1 = createCellCoords(0, 1);
     let c2 = createCellCoords(0, 2);
@@ -59,7 +51,7 @@ describe("createNeighbors returns a cell neighbors object", () => {
     let test_neighbors = [c0, c1, c2, c3, c4, c5, c6, c7];
 
     test("make neighbors from array of coords", () => {
-        expect(typeof createNeighbors(test_neighbors)).toBe("object");
+        expect(typeof getNeighbors(test_neighbors)).toBe("object");
     });
 });
 
@@ -72,13 +64,13 @@ describe("getNeighbors works as expected with valid coord", () => {
     let corner = getNeighbors(corner_coord, 3);
 
     test("returns array len 8 from coord(1,1) in 3x3 grid", () => {
-        expect(middle.collection.length).toBe(8);
+        expect(middle.length).toBe(8);
     });
     test("returns array len 5 from coord(0, 1) in 3x3 grid", () => {
-        expect(side.collection.length).toBe(5);
+        expect(side.length).toBe(5);
     });
     test("returns array len 3 from corner coord in 3x3 grid", () => {
-        expect(corner.collection.length).toBe(3);
+        expect(corner.length).toBe(3);
     });
 });
 
@@ -98,7 +90,7 @@ describe("Cell", () => {
 describe("create cell as partially immutable object", () => {
     const mock_coords = createCellCoords(2, 2);  // a cell with coordinates at the corner of 3x3 grid
     const mock_neighbors = getNeighbors(mock_coords, 3);
-    let data = {coords: mock_coords, alive: false, neighbors: mock_neighbors.collection, next_state: false};
+    let data = {coords: mock_coords, alive: false, neighbors: mock_neighbors, next_state: false};
 
     let testcell = createCell(data);
 
@@ -139,20 +131,41 @@ describe("neighbors are well defined", () => {
     const array_size = 3 * 3;
     let cells = initializeCells(array_size);
 
-    test("a cell has neighbors with state", () => {
-        expect(cells[0].neighbors[0].alive).toBe(false);
+    test("no neighbor tries to reference a cell outside of array", () => {
+        for (let i = 0; i < cells; cells++) {
+            for (let j = 0; j < cells[i].neighbors; j++) {
+                expect(cells[i].neighbors[j]).toBeLessThan(cells.length);
+            }
+        }
     });
 });
 
 
-describe("neighbors state is mutable", () => {
-    const array_size = 3 * 3;
+describe("neighbor returns index as expected", () => {
+    const array_size = 5 * 5;
     let cells = initializeCells(array_size);
-    cells[0].neighbors[0].alive = true;
+    let new_neighbors = [6, 7, 8, 11, 13, 16, 17, 18];
+    let sum = new_neighbors.reduce(function (a, b) {
+        return a+b;
+    }, 0);
 
-    test("a cell can see if their neighbor is alive or dead", () => {
-        expect(cells[0].neighbors[0].alive).toBe(true);
+    test("cell at index twelve in a 25x25 grid has x coord 2", () => {
+        expect(cells[12].coords.x).toBe(2);
+    });
+
+    test("cell at index twelve in a 25x25 grid has x coord 2", () => {
+        expect(cells[12].coords.y).toBe(2);
+    });
+
+    test("cell at index twelve has 8 neighbors", () => {
+        let narray = Array.from(cells[12].neighbors);
+        expect(narray.length).toBe(8);
+    });
+
+    test("cell at index twelve has expected neighbors", () => {
+        let computed_sum = cells[12].neighbors.reduce(function (a,b) {
+            return a + b;
+        }, 0);
+        expect(computed_sum).toEqual(sum);
     });
 });
-
-

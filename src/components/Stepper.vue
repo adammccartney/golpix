@@ -20,7 +20,7 @@ export default {
     },
     generateNext: function () {
         this.$store.dispatch(types.DETERMINE_NEXT);
-        //this.$store.dispatch(types.GENERATE_NEXT);
+        this.$store.dispatch(types.GENERATE_NEXT);
     },
   }
 }

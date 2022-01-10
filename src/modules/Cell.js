@@ -17,16 +17,12 @@ export function createCellCoords (cx, cy) {
     return Object.freeze(new CellCoords(x, y));  // returns immutable cell coords
 }
 
-export class CellNeighbors {
-    constructor (collection) {
-        this.collection = collection;
+export class Neighbor {  // a neighbor is just a reference to a cell
+    constructor (index) {
+        this.index = index;
     }
 }
 
-export function createNeighbors (coords) {
-    const neighbors = coords;
-    return new CellNeighbors(neighbors);
-}
 
 // checks validity of cells coordinates based on the length of the container's
 // side (assumes a square grid)
@@ -59,22 +55,13 @@ export function getNeighbors (cellcoords, side_length) {
                 let trycoords = createCellCoords(npx, npy);
                 let accept = isValidCoord(trycoords, side_length);
                 if (accept === true) {  // test validity of new coords
-                    const ncellcoords = createCellCoords(npx, npy);
-                    let ndata = {coords: ncellcoords, alive: false};
-                    let neighbor = createNeighbor(ndata);
-                    ncells.push(neighbor);
+                    let n_index = npy * side_length + npx;   // reference location of neighbor in cells array
+                    ncells.push(n_index);
                 }
             }
         }
     }
-    //let neighbors = createNeighbors(ncells);
-    // neighbors should return an array of references
-    let neighbors = () => {
-        for (let i = 0; i < ncells.length; i++) {
-            console.log(ncells[i]);
-        }
-    }
-    return neighbors;
+    return ncells;
 }
 
 export class Cell {
@@ -94,34 +81,23 @@ export function createCell(data) {
     return new Cell( coords, alive, neighbors, next_state );
 }
 
-export class Neighbor {  // neighbor is like a cell, but just knows it's coords and current next_state
-    constructor (coords, alive) {
-        this.coords = coords; // is type of CellCoords(x, y) and is immutable
-        this.alive = alive;   // is type of boolean and is mutable
-    }
-}
-
-export function createNeighbor(data) {
-    const coords = data.coords;
-    let alive = data.alive;
-    return new Neighbor(coords, alive);
-}
 
 export function initializeCells(array_size) {    // array should be N * N
     const len_side = Math.sqrt(array_size);  // i.e. a square grid
     let cells = [];
     for (let i = 0; i < array_size; i++) {
         let x = i % len_side;
-        let y = Math.floor(i/4);
+        let y = Math.floor(i/len_side);
         const cell_coords = createCellCoords(x, y);
         const cell_neighbors = getNeighbors(cell_coords, len_side); 
         let data = { coords: cell_coords, 
                      alive: false,
-                     neighbors: cell_neighbors.collection,
+                     neighbors: cell_neighbors,
                      next_state: false,
         };
         let acell = createCell(data);
-        cells.push(acell);
+        let c_index = (acell.coords.y * len_side) + acell.coords.x;
+        cells[c_index] = acell;
     }
     return cells;
 }
