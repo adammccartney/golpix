@@ -45,10 +45,15 @@ export default {
     [types.GENERATE_NEXT](state) {  // make the next generation
         const DEAD_WHITE = "white";
         const LIVE_BLUE = "blue";
+        const LIVE_LIGHT_BLUE = "lightblue";
+        const LIVE_DARK_BLUE = "darkblue";
+        const LIVING_COLORS = [LIVE_BLUE, LIVE_LIGHT_BLUE, LIVE_DARK_BLUE];
         for (let i = 0; i < state.cells.length; i++) {
             state.cells[i].alive = state.cells[i].next_state;
             if (state.cells[i].alive === true) { 
-                state.pixels.splice(i, 1, LIVE_BLUE);
+                const random = Math.floor(Math.random() * LIVING_COLORS.length);
+                const randomColor = LIVING_COLORS[random];
+                state.pixels.splice(i, 1, randomColor);
             } else {
                 state.pixels.splice(i, 1, DEAD_WHITE);
             }
